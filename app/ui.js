@@ -142,7 +142,7 @@ var UI;
             UI.initFullscreen();
 
             // Setup event handlers
-            UI.setupWindowEvents();
+            UI.addResizeHandlers();
             UI.addControlbarHandlers();
             UI.addTouchSpecificHandlers();
             UI.addExtraKeysHandlers();
@@ -229,13 +229,10 @@ var UI;
             UI.initSetting('repeaterID', '');
         },
 
-        setupWindowEvents: function() {
+        addResizeHandlers: function() {
             window.addEventListener('resize', UI.applyResizeMode);
             window.addEventListener('resize', UI.updateViewClip);
             window.addEventListener('resize', UI.updateViewDrag);
-
-            document.getElementById("noVNC_status")
-                .addEventListener('click', UI.hideStatus);
         },
 
         addControlbarHandlers: function() {
@@ -264,6 +261,9 @@ var UI;
                 .addEventListener('mousemove', UI.dragControlbarHandle);
             // resize events aren't available for elements
             window.addEventListener('resize', UI.updateControlbarHandle);
+
+            document.getElementById("noVNC_status")
+                .addEventListener('click', UI.hideStatus);
 
             var exps = document.getElementsByClassName("noVNC_expander");
             for (var i = 0;i < exps.length;i++) {
