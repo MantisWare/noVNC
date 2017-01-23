@@ -139,9 +139,10 @@ var UI;
                 UI.toggleControlbarSide();
             }
 
-            // Setup and initialize event handlers
+            UI.initFullscreen();
+
+            // Setup event handlers
             UI.setupWindowEvents();
-            UI.setupFullscreen();
             UI.addControlbarHandlers();
             UI.addTouchSpecificHandlers();
             UI.addExtraKeysHandlers();
@@ -173,6 +174,20 @@ var UI;
 
             if (typeof callback === "function") {
                 callback(UI.rfb);
+            }
+        },
+
+        initFullscreen: function() {
+            // Only show the button if fullscreen is properly supported
+            // * Safari doesn't support alphanumerical input while in fullscreen
+            if (!UI.isSafari &&
+                (document.documentElement.requestFullscreen ||
+                 document.documentElement.mozRequestFullScreen ||
+                 document.documentElement.webkitRequestFullscreen ||
+                 document.body.msRequestFullscreen)) {
+                document.getElementById('noVNC_fullscreen_button')
+                    .classList.remove("noVNC_hidden");
+                UI.addFullscreenHandlers();
             }
         },
 
@@ -221,20 +236,6 @@ var UI;
 
             document.getElementById("noVNC_status")
                 .addEventListener('click', UI.hideStatus);
-        },
-
-        setupFullscreen: function() {
-            // Only show the button if fullscreen is properly supported
-            // * Safari doesn't support alphanumerical input while in fullscreen
-            if (!UI.isSafari &&
-                (document.documentElement.requestFullscreen ||
-                 document.documentElement.mozRequestFullScreen ||
-                 document.documentElement.webkitRequestFullscreen ||
-                 document.body.msRequestFullscreen)) {
-                document.getElementById('noVNC_fullscreen_button')
-                    .classList.remove("noVNC_hidden");
-                UI.addFullscreenHandlers();
-            }
         },
 
         addControlbarHandlers: function() {
