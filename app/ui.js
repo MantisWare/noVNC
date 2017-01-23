@@ -187,7 +187,7 @@ var UI;
 
             // Settings with immediate effects
             UI.initSetting('logging', 'warn');
-            WebUtil.init_logging(UI.getSetting('logging'));
+            UI.updateLogging();
 
             // if port == 80 (or 443) then it won't be present and should be
             // set manually
@@ -854,7 +854,7 @@ var UI;
             UI.saveSetting('logging');
 
             // Settings with immediate (non-connected related) effect
-            WebUtil.init_logging(UI.getSetting('logging'));
+            UI.updateLogging();
             UI.updateViewClip();
             UI.updateViewDrag();
             //Util.Debug("<< settingsApply");
@@ -1645,6 +1645,10 @@ var UI;
                 UI.rfb.get_keyboard().set_focused(true);
                 UI.rfb.get_mouse().set_focused(true);
             }
+        },
+
+        updateLogging: function() {
+            WebUtil.init_logging(UI.getSetting('logging'));
         },
 
         updateSessionSize: function(rfb, width, height) {
