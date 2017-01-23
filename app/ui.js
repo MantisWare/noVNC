@@ -229,6 +229,34 @@ var UI;
             UI.initSetting('repeaterID', '');
         },
 
+        initRFB: function() {
+            try {
+                UI.rfb = new RFB({'target': document.getElementById('noVNC_canvas'),
+                                  'onNotification': UI.notification,
+                                  'onUpdateState': UI.updateState,
+                                  'onDisconnected': UI.disconnectFinished,
+                                  'onPasswordRequired': UI.passwordRequired,
+                                  'onXvpInit': UI.updateXvpButton,
+                                  'onClipboard': UI.clipboardReceive,
+                                  'onBell': UI.bell,
+                                  'onFBUComplete': UI.initialResize,
+                                  'onFBResize': UI.updateSessionSize,
+                                  'onDesktopName': UI.updateDesktopName});
+                return true;
+            } catch (exc) {
+                var msg = "Unable to create RFB client -- " + exc;
+                Util.Error(msg);
+                UI.showStatus(msg, 'error');
+                return false;
+            }
+        },
+
+/* ------^-------
+ *     /INIT
+ * ==============
+ * EVENT HANDLERS
+ * ------v------*/
+
         addResizeHandlers: function() {
             window.addEventListener('resize', UI.applyResizeMode);
             window.addEventListener('resize', UI.updateViewClip);
@@ -415,30 +443,8 @@ var UI;
             window.addEventListener('msfullscreenchange', UI.updateFullscreenButton);
         },
 
-        initRFB: function() {
-            try {
-                UI.rfb = new RFB({'target': document.getElementById('noVNC_canvas'),
-                                  'onNotification': UI.notification,
-                                  'onUpdateState': UI.updateState,
-                                  'onDisconnected': UI.disconnectFinished,
-                                  'onPasswordRequired': UI.passwordRequired,
-                                  'onXvpInit': UI.updateXvpButton,
-                                  'onClipboard': UI.clipboardReceive,
-                                  'onBell': UI.bell,
-                                  'onFBUComplete': UI.initialResize,
-                                  'onFBResize': UI.updateSessionSize,
-                                  'onDesktopName': UI.updateDesktopName});
-                return true;
-            } catch (exc) {
-                var msg = "Unable to create RFB client -- " + exc;
-                Util.Error(msg);
-                UI.showStatus(msg, 'error');
-                return false;
-            }
-        },
-
 /* ------^-------
- *     /INIT
+ * /EVENT HANDLERS
  * ==============
  *     VISUAL
  * ------v------*/
