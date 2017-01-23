@@ -1036,15 +1036,6 @@ var UI;
                 .classList.remove("noVNC_open");
         },
 
-        toggleConnectPanel: function() {
-            if (document.getElementById('noVNC_connect_dlg')
-                .classList.contains("noVNC_open")) {
-                UI.closeConnectPanel();
-            } else {
-                UI.openConnectPanel();
-            }
-        },
-
         connect: function() {
             var host = document.getElementById('noVNC_setting_host').value;
             var port = document.getElementById('noVNC_setting_port').value;
